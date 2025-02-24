@@ -16,7 +16,6 @@ A **Next.js** marketplace where users can browse, sell companies, and view inter
 - **Supabase account**  
 
 ### 2️⃣ Install & Run  
-```bash
 git clone https://github.com/DevGit21/Nextjs-marketplace.git
 cd marketplace-app
 yarn install  # or npm install
