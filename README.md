@@ -16,23 +16,23 @@ A **Next.js** marketplace where users can browse, sell companies, and view inter
 - **Supabase account**  
 
 ### 2️⃣ Install & Run  
-git clone https://github.com/DevGit21/Nextjs-marketplace.git
-cd marketplace-app
-yarn install  # or npm install
+- git clone https://github.com/DevGit21/Nextjs-marketplace.git
+- cd marketplace-app
+- yarn install  # or npm install
 
 ### 3️⃣ Configure Supabase
-Create a .env.local file:
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+- Create a .env.local file:
+- NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+- NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ### 4️⃣ Start the Server
-yarn dev  # or npm run dev
-Visit http://localhost:3000.
+- yarn dev  # or npm run dev
+- Visit http://localhost:3000.
 
 🔑 Authentication & Access Control
-Protected pages: /sell & /seller/interests
-Redirects guests to homepage
-Sign in/out via Google
+- Protected pages: /sell & /seller/interests
+- Redirects guests to homepage
+- Sign in/out via Google
 
 📂 Folder Structure
 ```bash
@@ -44,4 +44,4 @@ Sign in/out via Google
  ┣ 📜 package.json # Dependencies
  ┣ 📜 README.md    # Documentation
 
- 🚀 Happy Coding! 🎉
+ 🚀 **Happy Coding!** 🎉
