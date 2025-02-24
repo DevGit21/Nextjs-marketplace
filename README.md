@@ -35,6 +35,7 @@ Redirects guests to homepage
 Sign in/out via Google
 
 📂 Folder Structure
+```bash
 📦 nextjs-marketplace-app
  ┣ 📂 components   # Reusable UI (Navbar, Buttons)
  ┣ 📂 pages        # Marketplace, Sell, Interests
