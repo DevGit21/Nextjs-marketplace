@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { User } from "@supabase/supabase-js";
+import Image from "next/image";
 
 // Define the type for the company object
 interface Company {
@@ -28,9 +29,6 @@ export default function CompaniesPage() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [user, setUser] = useState<User | null>(null);
-  const [image, setImage] = useState<File | null>(null); 
-  const [uploadingImage, setUploadingImage] = useState(false);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -56,26 +54,6 @@ export default function CompaniesPage() {
     fetchData();
   }, []);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-    }
-  };
-
-  const uploadImage = async (file: File) => {
-    const filePath = `companies/${user?.id}/${file.name}`;
-    const { data, error } = await supabase.storage
-      .from('company-images') // Bucket name is 'company-images'
-      .upload(filePath, file);
-
-    if (error) {
-      console.error("Error uploading image:", error.message);
-      return null;
-    }
-
-    return data?.path ? `https://your-supabase-url/storage/v1/object/public/${data.path}` : null;
-  };
 
   const handleExpressInterest = async (companyId: string) => {
     try {
@@ -101,39 +79,6 @@ export default function CompaniesPage() {
     }
   };
 
-  const handleSubmit = async (company: Company) => {
-    setUploadingImage(true);
-
-    if (image) {
-      const imageUrl = await uploadImage(image);
-      if (imageUrl) {
-        company.image_url = imageUrl;
-      }
-    }
-
-    const { data, error } = await supabase
-      .from('companies')
-      .insert([
-        {
-          name: company.name,
-          description: company.description,
-          price: company.price,
-          industry: company.industry,
-          seller_id: user?.id,
-          image_url: company.image_url || null, // Save the image URL
-        },
-      ]);
-
-    setUploadingImage(false);
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    alert("Company listed successfully!");
-    router.push("/marketplace");
-  };
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -194,7 +139,7 @@ export default function CompaniesPage() {
                 <th className="px-6 py-3 border-r border-gray-300 text-left">Description</th>
                 <th className="px-6 py-3 border-r border-gray-300 text-left">Price</th>
                 <th className="px-6 py-3 border-r border-gray-300 text-left">Seller Email</th>
-                <th className="px-6 py-3 border-r border-gray-300 text-left">Image</th> {/* New Image Column */}
+                <th className="px-6 py-3 border-r border-gray-300 text-left">Image</th>
                 <th className="px-6 py-3 text-left">Action</th>
               </tr>
             </thead>
@@ -222,7 +167,12 @@ export default function CompaniesPage() {
                     </td>
                     <td className="px-6 py-4 border-r border-gray-300">
                       {company.image_url && (
-                        <img src={company.image_url} alt={company.name} className="w-24 h-24 object-cover" />
+                        <Image 
+                          src={company.image_url} 
+                          alt={company.name} 
+                          width={96} height={96} // Adjust size as needed
+                          className="object-cover"
+                        />
                       )}
                     </td>
                     <td className="px-6 py-4">

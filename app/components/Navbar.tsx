@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/config"; 
 import { Button } from "@/components/ui/button"; 
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname hook
+import { usePathname } from "next/navigation"; 
+import { User } from "@supabase/supabase-js";
 
 const Navbar = () => {
-  const [user, setUser] = useState<any>(null); // User state
+  const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname(); // Get the current path
 
   useEffect(() => {

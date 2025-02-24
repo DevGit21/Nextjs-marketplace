@@ -4,14 +4,27 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/config"; // Adjust the path based on your setup
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { User } from "@supabase/supabase-js";
+interface Interest {
+  id: string;
+  created_at: string;
+  company_id: string;
+  user_id: string;
+  company_name?: string; // Optional because it's added later
+  user?: {
+    id: string;
+    email: string;
+    full_name?: string;
+  };
+}
 
 export default function SellerInterestsPage() {
-  const [interests, setInterests] = useState<any[]>([]);
+  const [interests, setInterests] = useState<Interest[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   // Fetch authenticated user (assuming the seller must be logged in)
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   
   // Get current session user
   useEffect(() => {
@@ -34,7 +47,7 @@ export default function SellerInterestsPage() {
             user_id,
             companies ( seller_id, name )
         `)
-        .eq('companies.seller_id', user.id);
+        .eq('companies.seller_id', user?.id);
       
         if (error) {
           console.error("Error fetching interests:", error.message);
