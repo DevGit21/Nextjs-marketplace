@@ -12,8 +12,8 @@ type Props = {
 };
 
 export default function MarketplacePage({ initialCompanies }: Props) {
-  const [companies, setCompanies] = useState<Company[]>(initialCompanies);
-  const [loading, setLoading] = useState(false); // already loaded from server
+  const [companies] = useState<Company[]>(initialCompanies);
+  const [loading] = useState(false);
   const [search, setSearch] = useState("");
   const [industry, setIndustry] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -37,10 +37,12 @@ export default function MarketplacePage({ initialCompanies }: Props) {
     ]);
 
     if (error) {
-      console.error(error);
-      alert("There was an error. Try again.");
+        console.error(error);
+        alert("There was an error. Try again.");
     } else {
-      alert("Interest sent!");
+        console.log("Inserted interest:", data);
+        alert("Interest sent!");
+      
     }
   };
 
