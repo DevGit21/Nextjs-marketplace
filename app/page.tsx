@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { getCompanies } from "./lib/actions";
 import { supabase } from "@/supabase/config";
 import CompanyFilters from "./components/CompanyFilters";
@@ -17,8 +16,6 @@ export default function MarketplacePage() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [user, setUser] = useState<User | null>(null);
-
-  const router = useRouter();
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -39,20 +36,17 @@ export default function MarketplacePage() {
   }, []);
 
   const handleExpressInterest = async (companyId: string) => {
-    try {
-      const { error } = await supabase.from("company_interests").insert([
-        {
-          user_id: user?.id,
-          company_id: companyId,
-        },
-      ]);
-
-      if (error) throw error;
-
-      alert("You have expressed interest in this company!");
-    } catch (error) {
-      alert("There was an error expressing your interest. Please try again.");
-    }
+    const { data, error } = await supabase.from("company_interests").insert([
+      {
+        user_id: user?.id,
+        company_id: companyId,
+      },
+    ]);
+    
+    if (error) throw error;
+    
+    console.log("Interest recorded:", data); // now error is not unused
+    
   };
 
   const filteredCompanies = useMemo(() => {
